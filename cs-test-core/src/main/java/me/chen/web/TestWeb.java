@@ -7,6 +7,7 @@ import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.ServletOutputStream;
@@ -30,7 +31,7 @@ public class TestWeb {
 
     @RequestMapping("/test")
     @ResponseBody
-    public String test(String methodName, HttpServletResponse response) throws Exception {
+    public String test(@RequestParam(value="methodName")String methodName, HttpServletResponse response) throws Exception {
         Gson gson = new Gson();
         Object invoke = reflex.invoke(methodName);
         String json;

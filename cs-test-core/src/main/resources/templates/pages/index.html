@@ -37,10 +37,10 @@
 
                     <div class="input-group" v-for="n in item.names.length">
                         <span class="input-group-addon">@</span>
-                        <input type="text" v-bind:name="item.names[n-1]" class="form-control" v-bind:placeholder="entity.fieldName" aria-describedby="basic-addon1" v-if="item.types[n-1]=='String'">
-                        <input type="text" v-bind:name="item.names[n-1]" class="form-control" v-bind:placeholder="entity.fieldName" aria-describedby="basic-addon1" v-if="item.types[n-1]=='Integer'">
-                        <input type="text" v-bind:name="item.names[n-1]" class="form-control" v-bind:placeholder="entity.fieldName" aria-describedby="basic-addon1" v-if="item.types[n-1]=='Double'">
-                        <input type="date" v-bind:name="item.names[n-1]" class="form-control" v-bind:placeholder="entity.fieldName" aria-describedby="basic-addon1" v-if="item.types[n-1]=='Date'">
+                        <input type="text" v-bind:name="item.names[n-1]" class="form-control" aria-describedby="basic-addon1" v-if="item.types[n-1]=='String'">
+                        <input type="text" v-bind:name="item.names[n-1]" class="form-control" aria-describedby="basic-addon1" v-if="item.types[n-1]=='int'">
+                        <input type="text" v-bind:name="item.names[n-1]" class="form-control" aria-describedby="basic-addon1" v-if="item.types[n-1]=='double'">
+                        <input type="date" v-bind:name="item.names[n-1]" class="form-control" aria-describedby="basic-addon1" v-if="item.types[n-1]=='Date'">
                     </div>
 
                     <div v-for="entityMap in item.entityMap">
@@ -49,8 +49,8 @@
                                 <div class="input-group" v-for="entity in entityMap">
                                     <span class="input-group-addon">@</span>
                                     <input type="text" v-bind:name="entity.fieldName" class="form-control" v-bind:placeholder="entity.fieldName" aria-describedby="basic-addon1" v-if="entity.fieldType=='String'">
-                                    <input type="text" v-bind:name="entity.fieldName" class="form-control" v-bind:placeholder="entity.fieldName" aria-describedby="basic-addon1" v-if="entity.fieldType=='Integer'">
-                                    <input type="text" v-bind:name="entity.fieldName" class="form-control" v-bind:placeholder="entity.fieldName" aria-describedby="basic-addon1" v-if="entity.fieldType=='Double'">
+                                    <input type="text" v-bind:name="entity.fieldName" class="form-control" v-bind:placeholder="entity.fieldName" aria-describedby="basic-addon1" v-if="entity.fieldType=='int'">
+                                    <input type="text" v-bind:name="entity.fieldName" class="form-control" v-bind:placeholder="entity.fieldName" aria-describedby="basic-addon1" v-if="entity.fieldType=='double'">
                                     <input type="date" v-bind:name="entity.fieldName" class="form-control" v-bind:placeholder="entity.fieldName" aria-describedby="basic-addon1" v-if="entity.fieldType=='Date'">
                                 </div>
                             </div>
