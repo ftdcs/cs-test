@@ -147,6 +147,14 @@ public class Reflex {
         private String[] extNames;
         private String[] extTypes;
 
+        private String result;
+
+        /**
+         * 一个临时用的formData表单 用于提交表单数据
+         * setNames方法进行简单的值注入
+         */
+        private Map<String,String> formData = new HashMap<>();
+
         private Map<String,Map<String,EntityDescribe>> entityMap = new HashMap<>();
 
 
@@ -157,6 +165,9 @@ public class Reflex {
 
         protected void setNames(String[] names) {
             this.names = names;
+            for (String s : names) {
+                formData.put(s,"");
+            }
         }
 
         protected void setTypes(Class[] types) {
@@ -209,6 +220,14 @@ public class Reflex {
 
         public void putEntityList(String entityName,Map<String,EntityDescribe> fieldList){
             entityMap.put(entityName,fieldList);
+        }
+
+        public Map<String, String> getFormData() {
+            return formData;
+        }
+
+        public String getResult() {
+            return result;
         }
     }
 
