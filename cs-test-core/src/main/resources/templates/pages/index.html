@@ -27,13 +27,16 @@
 <body>
 <div id="app">
 
-    <el-tabs :tab-position="tabPosition" style="height: 1000px;" v-for="obj in list">
-        <el-tab-pane :label="obj.name">
+    <el-tabs :tab-position="tabPosition" style="height: 1000px;">
+        <el-tab-pane :label="obj.name" v-for="obj in list">
             <el-collapse v-model="activeNames"  accordion>
-                <el-collapse-item :title="item.name" :name="item.name" v-for="item in obj.methodDescribeList">
+                <el-collapse-item :title="item.desc" :name="item.name" v-for="item in obj.methodDescribeList">
                     <el-form ref="item.name" :model="item.formData" label-width="80px">
-                        <el-form-item v-for="n in item.names.length">
-                            <el-input v-model="item.formData[item.names[n-1]]"></el-input>
+                        <el-form-item v-for="n in item.names.length" >
+                            <el-input :placeholder="item.names[n-1]" v-model="item.formData[item.names[n-1]]"></el-input>
+                        </el-form-item>
+                        <el-form-item v-for="entityMap in item.entityMap">
+                            <el-input :placeholder="entity.fieldName" v-model="entity.fieldName"></el-input>
                         </el-form-item>
                         <el-form-item>
                             <el-button type="primary" @click="onSubmit(item)">执行</el-button>
