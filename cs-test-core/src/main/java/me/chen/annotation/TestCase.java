@@ -17,7 +17,7 @@ public @interface TestCase {
      * 可以单独指定value来为name赋值 也可以直接用name来指定显示的名字
      * @return
      */
-    String value();
+    String value() default "";
 
     String name() default "";
 
