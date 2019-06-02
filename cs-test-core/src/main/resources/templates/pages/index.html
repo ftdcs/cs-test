@@ -12,17 +12,7 @@
 
     <link rel="stylesheet" th:href="@{/element/css/index.css}"/>
     <script th:src="@{/element/index.js}"></script>
-    <!--<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">-->
 
-    <!-- Bootstrap -->
-    <!--<link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">-->
-
-    <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
-    <!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
-    <!--[if lt IE 9]>
-    <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
-    <![endif]-->
 </head>
 <body>
 <div id="app">
@@ -33,7 +23,7 @@
                 <el-collapse-item :title="item.desc" :name="item.name" v-for="item in obj.methodDescribeList">
                     <el-form ref="item.name" :model="item.formData" label-width="80px">
                         <el-form-item v-for="n in item.names.length" >
-                            <el-input :placeholder="item.names[n-1]" v-model="item.formData[item.names[n-1]]"></el-input>
+                            <el-input :placeholder="!!item.descs[n-1]?item.descs[n-1]:item.names[n-1]" v-model="item.formData[item.names[n-1]]"></el-input>
                         </el-form-item>
                         <el-form-item v-for="entityMap in item.entityMap">
                             <el-input :placeholder="entity.fieldName" v-model="entity.fieldName"></el-input>
@@ -51,55 +41,10 @@
         </el-tab-pane>
     </el-tabs>
 
-    <!--<div class="panel panel-default" v-for="obj in list">-->
-        <!--&lt;!&ndash; Default panel contents &ndash;&gt;-->
-        <!--<div class="panel-heading">{{obj.name}}</div>-->
-        <!--<div class="panel-body">-->
-            <!--<p>{{obj.desc}}</p>-->
-        <!--</div>-->
-
-        <!--&lt;!&ndash; List group &ndash;&gt;-->
-        <!--<ul class="list-group" v-for="item in obj.methodDescribeList" style="margin: 10px">-->
-            <!--<div class="panel panel-default">-->
-                <!--<div class="panel-heading">-->
-                    <!--<button style="margin-bottom: 10px" type="button" class="list-group-item"  @click="executeFunc(item,$event)">{{item.desc}}</button>-->
-
-                    <!--<div class="input-group" v-for="n in item.names.length">-->
-                        <!--<span class="input-group-addon">@</span>-->
-                        <!--<input type="text" v-bind:name="item.names[n-1]" class="form-control" aria-describedby="basic-addon1" v-if="item.types[n-1]=='String'">-->
-                        <!--<input type="text" v-bind:name="item.names[n-1]" class="form-control" aria-describedby="basic-addon1" v-if="item.types[n-1]=='int'">-->
-                        <!--<input type="text" v-bind:name="item.names[n-1]" class="form-control" aria-describedby="basic-addon1" v-if="item.types[n-1]=='double'">-->
-                        <!--<input type="date" v-bind:name="item.names[n-1]" class="form-control" aria-describedby="basic-addon1" v-if="item.types[n-1]=='Date'">-->
-                    <!--</div>-->
-
-                    <!--<div v-for="entityMap in item.entityMap">-->
-                        <!--<div class="panel panel-default">-->
-                            <!--<div class="panel-body result">-->
-                                <!--<div class="input-group" v-for="entity in entityMap">-->
-                                    <!--<span class="input-group-addon">@</span>-->
-                                    <!--<input type="text" v-bind:name="entity.fieldName" class="form-control" v-bind:placeholder="entity.fieldName" aria-describedby="basic-addon1" v-if="entity.fieldType=='String'">-->
-                                    <!--<input type="text" v-bind:name="entity.fieldName" class="form-control" v-bind:placeholder="entity.fieldName" aria-describedby="basic-addon1" v-if="entity.fieldType=='int'">-->
-                                    <!--<input type="text" v-bind:name="entity.fieldName" class="form-control" v-bind:placeholder="entity.fieldName" aria-describedby="basic-addon1" v-if="entity.fieldType=='double'">-->
-                                    <!--<input type="date" v-bind:name="entity.fieldName" class="form-control" v-bind:placeholder="entity.fieldName" aria-describedby="basic-addon1" v-if="entity.fieldType=='Date'">-->
-                                <!--</div>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</div>-->
-
-                <!--</div>-->
-                <!--<div class="panel-body result">-->
-                    <!--<p></p>-->
-                <!--</div>-->
-            <!--</div>-->
-            <!--&lt;!&ndash;<button type="button" class="list-group-item">{{item.desc}}</button>&ndash;&gt;-->
-            <!--&lt;!&ndash;<li class="list-group-item">{{item.desc}}</li>&ndash;&gt;-->
-        <!--</ul>-->
-    <!--</div>-->
 </div>
 <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
 <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
-<!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
-<!--<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>-->
+
 <script>
     var vm = null;
     $(function () {

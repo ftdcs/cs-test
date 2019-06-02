@@ -8,10 +8,10 @@ import java.lang.annotation.*;
  * @Date: 2019/05/16 0019:00:23
  * @Version 1.0
  */
-@Target({ElementType.METHOD,ElementType.FIELD})
+@Target({ElementType.METHOD,ElementType.FIELD,ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface Describe {
 
-    String desc() default "未设置";
+    String value() default "未设置";
 }

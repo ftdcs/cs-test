@@ -43,6 +43,8 @@ public class Reflex {
         long endTime = System.currentTimeMillis();
         log.info("调用类: {} ,方法: {} ,入参: {}, 耗时: {}毫秒 ,返回值: {}",beanName,methodName,args,(endTime-startTime),result);
         if(result == null){
+            sb.append("\n");
+            sb.append(String.format("调用类: {} ,方法: {} ,入参: {}, 耗时: {}毫秒 ,返回值: {}",beanName,methodName,args,(endTime-startTime),result));
             result = sb.toString();
         }
         return result;
@@ -58,14 +60,15 @@ public class Reflex {
                 clazz = v.getClass();
             }
             TestCase testCase = (TestCase) clazz.getAnnotation(TestCase.class);
-            ClassDescribe classDescr = new ClassDescribe(testCase.name(),testCase.desc());
+            String testCaseName = Optional.ofNullable(testCase.name()).orElse(testCase.value());
+            ClassDescribe classDescr = new ClassDescribe(testCaseName,testCase.desc());
             Method[] methods = clazz.getDeclaredMethods();
             for (Method method : methods) {
                 if(!Modifier.isPublic(method.getModifiers())){
                     continue;
                 }
                 Describe describe = method.getAnnotation(Describe.class);
-                String desc = describe==null?"未设置":describe.desc();
+                String desc = describe==null?"未设置":describe.value();
                 String methodName = method.getName();
                 while(methodNameBeanList.containsKey(methodName)){
                     methodName += "_1";
@@ -74,9 +77,11 @@ public class Reflex {
                 Parameter[] parameters = method.getParameters();
                 String[] names = new String[parameters.length];
                 Class<?>[] types = new Class[parameters.length];
+                String[] descs = new String[parameters.length];
                 for (int i = 0; i < parameters.length; i++) {
                     names[i] = parameters[i].getName();
                     types[i] = parameters[i].getType();
+                    descs[i] = Optional.ofNullable(parameters[i].getAnnotation(Describe.class)).map(Describe::value).orElse("");
                     BindEntity bindEntity = parameters[i].getAnnotation(BindEntity.class);
                     if(bindEntity!=null){
                         Class type = parameters[i].getType();
@@ -84,7 +89,8 @@ public class Reflex {
                         Field[] declaredFields = type.getDeclaredFields();
                         Map<String,EntityDescribe> fieldMap = new HashMap<>();
                         for (Field declaredField : declaredFields) {
-                            EntityDescribe entityDescribe = new EntityDescribe(name+"."+declaredField.getName(),"",declaredField.getType().getSimpleName());
+                            String fieldDesc = Optional.ofNullable(declaredField.getAnnotation(Describe.class)).map(Describe::value).orElse("");
+                            EntityDescribe entityDescribe = new EntityDescribe(name+"."+declaredField.getName(),fieldDesc,declaredField.getType().getSimpleName());
                             fieldMap.put(declaredField.getName(),entityDescribe);
                         }
                         methodDescribe.putEntityList(name,fieldMap);
@@ -92,6 +98,7 @@ public class Reflex {
                 }
                 methodDescribe.setNames(names);
                 methodDescribe.setTypes(types);
+                methodDescribe.setDescs(descs);
                 BindValue bindValue = method.getAnnotation(BindValue.class);
                 if(bindValue!=null){
                     methodDescribe.setExtNames(bindValue.names());
@@ -143,6 +150,7 @@ public class Reflex {
         private String desc;
         private String[] names;
         private String[] types;
+        private String[] descs;
 
         private String[] extNames;
         private String[] extTypes;
@@ -229,6 +237,16 @@ public class Reflex {
         public String getResult() {
             return result;
         }
+
+        public String[] getDescs() {
+            return descs;
+        }
+
+        public void setDescs(String[] descs) {
+            this.descs = descs;
+        }
+
+
     }
 
     public class EntityDescribe{
