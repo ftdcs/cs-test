@@ -10,9 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Configuration;
 
-import java.lang.reflect.*;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.lang.reflect.Parameter;
 import java.util.*;
-import java.util.function.Predicate;
 
 /**
  * @Author: ftdcs
@@ -44,7 +46,7 @@ public class Reflex {
         log.info("调用类: {} ,方法: {} ,入参: {}, 耗时: {}毫秒 ,返回值: {}",beanName,methodName,args,(endTime-startTime),result);
         if(result == null){
             sb.append("\n");
-            sb.append(String.format("调用类: {} ,方法: {} ,入参: {}, 耗时: {}毫秒 ,返回值: {}",beanName,methodName,args,(endTime-startTime),result));
+            sb.append(String.format("调用类: %s ,方法: %s ,入参: %s, 耗时: %s毫秒 ,返回值: %s",beanName,methodName,args,(endTime-startTime),result));
             result = sb.toString();
         }
         return result;
@@ -60,15 +62,14 @@ public class Reflex {
                 clazz = v.getClass();
             }
             TestCase testCase = (TestCase) clazz.getAnnotation(TestCase.class);
-            String testCaseName = Optional.ofNullable(testCase.name()).orElse(testCase.value());
+            String testCaseName = testCase.name().equals("")?testCase.value():testCase.name();
             ClassDescribe classDescr = new ClassDescribe(testCaseName,testCase.desc());
             Method[] methods = clazz.getDeclaredMethods();
             for (Method method : methods) {
                 if(!Modifier.isPublic(method.getModifiers())){
                     continue;
                 }
-                Describe describe = method.getAnnotation(Describe.class);
-                String desc = describe==null?"未设置":describe.value();
+                String desc = Optional.ofNullable(method.getAnnotation(Describe.class)).map(Describe::value).orElse("");
                 String methodName = method.getName();
                 while(methodNameBeanList.containsKey(methodName)){
                     methodName += "_1";
@@ -92,6 +93,7 @@ public class Reflex {
                             String fieldDesc = Optional.ofNullable(declaredField.getAnnotation(Describe.class)).map(Describe::value).orElse("");
                             EntityDescribe entityDescribe = new EntityDescribe(name+"."+declaredField.getName(),fieldDesc,declaredField.getType().getSimpleName());
                             fieldMap.put(declaredField.getName(),entityDescribe);
+                            methodDescribe.addField(name+"."+declaredField.getName());
                         }
                         methodDescribe.putEntityList(name,fieldMap);
                     }
@@ -176,6 +178,10 @@ public class Reflex {
             for (String s : names) {
                 formData.put(s,"");
             }
+        }
+
+        public void addField(String name){
+            formData.put(name,"");
         }
 
         protected void setTypes(Class[] types) {

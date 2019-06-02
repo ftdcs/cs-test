@@ -20,7 +20,7 @@ import java.util.Optional;
 @TestCase(name="hello world",desc = "hello world sample for cs-test-case")
 public class HelloWorld {
 
-    @Describe(desc = "输出Hello World")
+    @Describe("输出Hello World")
 //    @BindValue(names = {"keyword"},types = {String.class})
     public String helloworld(String keyword){
         String result = Optional.ofNullable(keyword).orElse("Hello World");

@@ -13,5 +13,5 @@ import java.lang.annotation.*;
 @Documented
 public @interface Describe {
 
-    String value() default "未设置";
+    String value();
 }

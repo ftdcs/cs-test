@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Map;
@@ -41,11 +42,15 @@ public class TestWeb {
             json = gson.toJson(invoke);
         }
         if(json.contains("\n")){
+//            response.setCharacterEncoding("UTF-8");
+//            response.setContentType("text/html;charset=utf-8");
+            ServletOutputStream outputStream = response.getOutputStream();
+            OutputStreamWriter ow = new OutputStreamWriter(outputStream,"utf-8");
             String[] strings = json.split("\\\\n");
             for (String string : strings) {
-                ServletOutputStream outputStream = response.getOutputStream();
-                outputStream.println(string);
+                ow.write(string);
             }
+            ow.flush();
         }else{
             return json;
         }
