@@ -197,7 +197,7 @@ public class Reflex {
         }
 
         protected void setExtTypes(Class[] extTypes) {
-            String[] typesName = new String[types.length];
+            String[] typesName = new String[extTypes.length];
             for (int i = 0; i < extTypes.length; i++) {
                 typesName[i] = extTypes[i].getSimpleName();
             }
