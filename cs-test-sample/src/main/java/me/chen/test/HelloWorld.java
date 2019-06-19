@@ -27,7 +27,14 @@ public class HelloWorld {
         return result;
     }
 
+    @Describe("输出Hello World2")
     public String helloworld(@BindEntity Test test,@BindEntity("test2") Test test2){
         return test.toString();
     }
+
+    @Describe("输出Hello World3")
+    public String helloworld(){
+        return "hello world";
+    }
+
 }

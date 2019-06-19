@@ -171,6 +171,8 @@ public class Reflex {
         public MethodDescribe(String name, String desc) {
             this.name = name;
             this.desc = desc;
+            extNames = new String[0];
+            extTypes = new String[0];
         }
 
         protected void setNames(String[] names) {

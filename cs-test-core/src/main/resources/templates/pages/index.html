@@ -28,7 +28,7 @@
                         <el-form-item v-for="entityMap in item.entityMap">
                             <el-input :placeholder="entity.fieldDesc" v-model="item.formData[entity.fieldName]" v-for="entity in entityMap"></el-input>
                         </el-form-item>
-                        <el-form-item v-for="n in item.extNames.length" >
+                        <el-form-item v-for="n in item.extNames.length">
                             <el-input :placeholder="item.extNames[n-1]" v-model="item.formData[item.extNames[n-1]]"></el-input>
                         </el-form-item>
                         <el-form-item>
@@ -60,7 +60,7 @@
                         "name":"",
                         "desc":"",
                         "methodDescribeList":[
-                            {"name":"","desc":"","names":[],"types":[],result:""}
+                            {"name":"","desc":"","names":[],"types":[],"extNames":[],"extTypes":[],result:""}
                         ]
                     }
                 ],
